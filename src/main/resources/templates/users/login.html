@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
@@ -8,12 +8,14 @@
 
 <h1>로그인</h1>
 
-<form action="/login-success">
+<form action="/users/login-success">
     <label for="id">아 이 디</label>
     <input type="text" id="id" name="id"><br><br>
     <label for="passwd">비밀번호</label>
     <input type="text" id="passwd" name="passwd"><br><br>
-    <input type="submit" value="Submit">
+    <button type="submit" class="btn-primary">로그인</button>
+    <a href="/users/new" class="link-primary">회원가입</a>
+
 </form>
 
 </body>
