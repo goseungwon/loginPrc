@@ -2,13 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header"/>
 <head>
-    <link th:href="@{../../static/css/style.css}" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var green = '<span id="green" style="color: green;">비밀번호가 일치합니다</span>'
+        var red = '<span id="red" style="color: red;">비밀번호가 일치하지 않습니다.</span>'
+
+        $(".checkPassword").bind("change keyup input",function(e){ // keyup 함수 -> passwordCheck 클래스가 타이핑 됐을 때
+            if($(".password").val() == $(".checkPassword").val()){  //password 클래스와 passwordCheck 클래스의 값이 같다면 // val()이 value임
+
+                $(".submit").removeAttr('disabled'); // reomveAttr -> 속성 제거
+                $("#green").remove();
+                $("#red").remove();
+                $(".container").append(green); //append -> loginBox 클래스 다음에 값 추가
+            }else{
+                $(".submit").attr('disabled','disabled'); //attr -> 속성추가  ex) $(".password").attr('placeholder', '비번');
+                $("#green").remove();
+                $("#red").remove();
+                $(".container").append(red);
+            }
+        })
+
+    })
+</script>
+
+
+<!--
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function (){
+        var green='<span id ="green" stype="color:green;">비밀번호가 일치합니다.</span>'
+        var red='<span id ="red" stype="color:red;">비밀번호가 일치하지 않습니다.</span>'
+
+        $(".checkPassword").keypress(function () {  //keyup함수는 checkPassword가 타이핑될때 실행
+            if ($(".password").val() == $(".checkPassword").val()) { //두개가 같으면 val()이 value
+
+                $(".submit").removeAttr("disabled");    // .은 클래스 #은 변수
+                $("#green").remove();
+                $("#red").remove();
+                $(".container").append(green);
+            }else{
+                $(".submit").attr('disabled', 'disabled');    // 속성 추가
+                $(".checkPassword").attr('placeholder', '비밀번호 확인이 다릅니다.');
+                $("#green").remove();
+                $("#red").remove();
+                $(".container").append(red);
+            }
+        })
+    });
+</script>-->
 <body>
 <div class="container">
-    <form role="form" action="/user/create" th:object="${userForm}" method="post">
+    <form role="form" action="/users/new" th:object="${userForm}" method="post">
         <div class="form-group">
             <label th:for="name">이름</label>
             <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" class="form-control"
@@ -17,33 +65,53 @@
         </div>
     <div class="form-group">
         <label th:for="password">비밀번호</label>
-        <input type="text" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
+        <input id="password" type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
                th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
         <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
     </div>
     <div class="form-group">
         <label th:for="checkPassword">비밀번호 확인</label>
-        <input type="text" th:field="*{checkPassword}" placeholder="비밀번호확인을 입력하세요" class="form-control"
+        <input id="checkPassword" type="password" th:field="*{checkPassword}" placeholder="비밀번호확인을 입력하세요" class="form-control"
                th:class="${#fields.hasErrors('checkPassword')}? 'form-control fieldError' : 'form-control'">
         <p th:if="${#fields.hasErrors('checkPassword')}" th:errors="*{checkPassword}">Incorrect date</p>
+
     </div>
-    <div class="form-group" th:style="grid">
+    <div class="form-group">
         <label th:for="phoneNum">전화번호를 입력하세요</label>
-        <input type="text" th:field="*{firstPhoneNum}" placeholder="010" class="input form-control"
-               th:class="${#fields.hasErrors('firstPhoneNum')}? 'form-control fieldError' : 'form-control'">
-        <p th:if="${#fields.hasErrors('firstPhoneNum')}" th:errors="*{firstPhoneNum}">Incorrect date</p>
-        <p>-</p>
-        <input type="text" th:field="*{secondPhoneNum}" placeholder=1234 class="input form-control"
-               th:class="${#fields.hasErrors('secondPhoneNum')}? 'form-control fieldError' : 'form-control'">
-        <p th:if="${#fields.hasErrors('secondPhoneNum')}" th:errors="*{secondPhoneNum}">Incorrect date</p>
-        <p>-</p>
-        <input type="text" th:field="*{lastPhoneNum}" placeholder="5678" class="input form-control"
-               th:class="${#fields.hasErrors('lastPhoneNum')}? 'form-control fieldError' : 'form-control'">
-        <p th:if="${#fields.hasErrors('lastPhoneNum')}" th:errors="*{lastPhoneNum}">Incorrect date</p>
+        <input type="text" th:field="*{phoneNum}" placeholder="01012345678" class="form-control"
+               th:class="${#fields.hasErrors('phoneNum')}? 'form-control fieldError' : 'form-control'">
+        <p th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}">Incorrect date</p>
     </div>
     <button type="submit" class="btn btn-primary">회원가입</button>
+
+
+
+        <!--<script>  일반 자바스크립트
+            function checkPhoneNum(){
+                var phoneNum=$('#phoneNum').val();
+
+                if (phoneNum.length>11 || phoneNum.length<10){
+                    alert("휴대폰 번호를 정확히 입력해주세요.");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <script>
+            function test() {
+                var p1 = document.getElementById('password').value;
+                var p2 = document.getElementById('checkPassword').value;
+
+                if (p1!=p2){
+                    alert("비밀번호 불일치");
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        </script>-->
     </form>
-    <br />
+    <br/>
 </div>  <!--container-->
 </body>
 </html>

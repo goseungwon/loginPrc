@@ -15,12 +15,9 @@ public class User {
     private Long id;
 
     private String password;
-    private String checkPassword;
-
 
     private String name;
 
-    @Embedded
-    private PhoneNumber phoneNumber;
+    private Integer phoneNumber;
 
 }
