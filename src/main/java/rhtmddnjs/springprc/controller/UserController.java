@@ -11,6 +11,7 @@ import rhtmddnjs.springprc.domain.User;
 import rhtmddnjs.springprc.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,9 +40,17 @@ public class UserController {
         User user = new User();
         user.setName(form.getName());
         user.setPassword(form.getPassword());
-        user.setPhoneNumber(form.getPhoneNum());
+        user.setPhoneNum(form.getPhoneNum());
 
         userService.join(user);
         return "redirect:/users/login";
+    }
+
+    @GetMapping("/users/list")
+    public String list(Model model){
+        List<User> users = userService.findUsers();
+        model.addAttribute("users",users);
+        return "/users/userList";
+
     }
 }

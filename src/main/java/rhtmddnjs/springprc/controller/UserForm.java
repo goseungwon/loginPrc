@@ -24,9 +24,9 @@ public class UserForm {
 
 
     @NotNull (message = "전화번호를 입력하세요.")
-    @Min(10)
-    @Max(11)
+//    @Min(10)
+//    @Max(11)
    //@Pattern(regexp = "(?=.*[0-9]).{10,11}", message = "전화번호는 10자이상 11자 이하입니다.")
-    private Integer PhoneNum;
+    private Long PhoneNum;
 
 }
