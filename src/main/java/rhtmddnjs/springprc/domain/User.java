@@ -14,9 +14,9 @@ public class User {
     @Column(name="user_id") //DB속성 이름
     private Long id;
 
-    private String password;
-
     private String name;
+
+    private String password;
 
     private Long phoneNum;
 
